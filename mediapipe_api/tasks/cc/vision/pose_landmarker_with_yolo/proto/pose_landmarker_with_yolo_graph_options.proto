@@ -1,0 +1,33 @@
+/* Copyright 2025 Custom Implementation */
+
+syntax = "proto3";
+
+package mediapipe.tasks.vision.pose_landmarker_with_yolo.proto;
+
+import "mediapipe/tasks/cc/core/proto/base_options.proto";
+import "mediapipe/tasks/cc/vision/pose_landmarker/proto/pose_landmarker_graph_options.proto";
+import "mediapipe/tasks/cc/vision/object_detector/proto/object_detector_options.proto";
+
+option java_package = "com.google.mediapipe.tasks.vision.poselandmarkerwithyolo.proto";
+option java_outer_classname = "PoseLandmarkerWithYoloGraphOptionsProto";
+
+// Options for the PoseLandmarkerWithYolo graph.
+// Combines pose landmarking and object detection in a single graph
+// that processes both in parallel on the same input frame.
+message PoseLandmarkerWithYoloGraphOptions {
+  // Base options for model loading and acceleration.
+  // The model_asset should point to a .task bundle containing:
+  // - pose_detector.tflite
+  // - pose_landmarks_detector.tflite  
+  // - yolo.tflite
+  core.proto.BaseOptions base_options = 1;
+
+  // Options for the pose landmarker subgraph.
+  vision.pose_landmarker.proto.PoseLandmarkerGraphOptions pose_landmarker_options = 2;
+
+  // Options for the YOLO object detector subgraph.
+  vision.object_detector.proto.ObjectDetectorOptions object_detector_options = 3;
+
+  // Whether to output segmentation masks from pose landmarker.
+  bool output_segmentation_masks = 4;
+}
